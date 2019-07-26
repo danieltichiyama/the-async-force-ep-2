@@ -95,10 +95,47 @@ function oReqStarshipsListener() {
   }
   let obj = JSON.parse(this.responseText);
   console.log(obj);
-}
 
-function transferFailed() {
-  console.log("failed request");
+  let name = document.createElement("h2");
+  name.className = "name";
+  name.innerHTML = obj.name;
+  contentContainer.appendChild(name);
+
+  let manufacturer = document.createElement("p");
+  manufacturer.className = "manufacturer";
+  manufacturer.innerHTML = "Manufacturer: " + obj.manufacturer;
+  contentContainer.appendChild(manufacturer);
+
+  let starshipClass = document.createElement("p");
+  starshipClass.className = "starshipClass";
+  starshipClass.innerHTML = "Starship Class: " + obj.starship_class;
+  contentContainer.appendChild(starshipClass);
+
+  let movies = document.createElement("h3");
+  movies.className = "movies";
+  movies.innerHTML = "Appears In";
+  contentContainer.appendChild(movies);
+
+  let filmList = document.createElement("ul");
+  filmList.className = "filmList";
+
+  let films = obj.films;
+  for (i = 0; i < films.length; i++) {
+    let oReq = new XMLHttpRequest();
+
+    function oReqFilmsListener() {
+      let obj = JSON.parse(this.responseText);
+      let filmTitle = document.createElement("li");
+      filmTitle.className = "filmTitle";
+      filmTitle.innerHTML = obj.title;
+      filmList.appendChild(filmTitle);
+    }
+
+    oReq.addEventListener("load", oReqFilmsListener);
+    oReq.open("GET", films[i]);
+    oReq.send();
+  }
+  contentContainer.appendChild(filmList);
 }
 
 function callAPI() {
