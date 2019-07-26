@@ -14,6 +14,30 @@ function oReqPeopleListener() {
   }
   let obj = JSON.parse(this.responseText);
   console.log(obj);
+
+  let name = document.createElement("h2");
+  name.className = "name";
+  name.innerHTML = obj.name;
+  contentContainer.appendChild(name);
+
+  let gender = document.createElement("p");
+  gender.className = "gender";
+  gender.innerHTML = "Gender: " + obj.gender;
+  contentContainer.appendChild(gender);
+
+  let oReq = new XMLHttpRequest();
+
+  function oReqSpeciesListener() {
+    let obj = JSON.parse(this.responseText);
+    let species = document.createElement("p");
+    species.className = "species";
+    species.innerHTML = "Species: " + obj.name;
+    contentContainer.appendChild(species);
+  }
+
+  oReq.addEventListener("load", oReqSpeciesListener);
+  oReq.open("GET", obj.species[0]);
+  oReq.send();
 }
 
 function oReqPlanetsListener() {
@@ -22,6 +46,47 @@ function oReqPlanetsListener() {
   }
   let obj = JSON.parse(this.responseText);
   console.log(obj);
+
+  let name = document.createElement("h2");
+  name.className = "name";
+  name.innerHTML = obj.name;
+  contentContainer.appendChild(name);
+
+  let terrain = document.createElement("p");
+  terrain.className = "terrain";
+  terrain.innerHTML = "Terrain: " + obj.terrain;
+  contentContainer.appendChild(terrain);
+
+  let population = document.createElement("p");
+  population.className = "terrain";
+  population.innerHTML = "Population: " + obj.population;
+  contentContainer.appendChild(population);
+
+  let movies = document.createElement("h3");
+  movies.className = "movies";
+  movies.innerHTML = "Appears In";
+  contentContainer.appendChild(movies);
+
+  let filmList = document.createElement("ul");
+  filmList.className = "filmList";
+
+  let films = obj.films;
+  for (i = 0; i < films.length; i++) {
+    let oReq = new XMLHttpRequest();
+
+    function oReqFilmsListener() {
+      let obj = JSON.parse(this.responseText);
+      let filmTitle = document.createElement("li");
+      filmTitle.className = "filmTitle";
+      filmTitle.innerHTML = obj.title;
+      filmList.appendChild(filmTitle);
+    }
+
+    oReq.addEventListener("load", oReqFilmsListener);
+    oReq.open("GET", films[i]);
+    oReq.send();
+  }
+  contentContainer.appendChild(filmList);
 }
 
 function oReqStarshipsListener() {
@@ -38,9 +103,10 @@ function transferFailed() {
 
 function callAPI() {
   oReq = new XMLHttpRequest();
-  if (typeof resourceId.value !== "number") {
+  if (typeof parseInt(resourceId.value) !== "number") {
     return alert("ERROR: value must be a number.");
   }
+  contentContainer.innerHTML = "";
   if (resourceType.value === "people") {
     console.log(resourceType.value);
 
