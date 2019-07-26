@@ -13,7 +13,6 @@ function oReqPeopleListener() {
     return alert(this.status + " ERROR: Index not found. ");
   }
   let obj = JSON.parse(this.responseText);
-  console.log(obj);
 
   let name = document.createElement("h2");
   name.className = "name";
@@ -45,7 +44,6 @@ function oReqPlanetsListener() {
     return alert(this.status + " ERROR: Index not found. ");
   }
   let obj = JSON.parse(this.responseText);
-  console.log(obj);
 
   let name = document.createElement("h2");
   name.className = "name";
@@ -94,7 +92,6 @@ function oReqStarshipsListener() {
     return alert(this.status + " ERROR: Index not found. ");
   }
   let obj = JSON.parse(this.responseText);
-  console.log(obj);
 
   let name = document.createElement("h2");
   name.className = "name";
@@ -145,24 +142,18 @@ function callAPI() {
   }
   contentContainer.innerHTML = "";
   if (resourceType.value === "people") {
-    console.log(resourceType.value);
-
     oReq.addEventListener("load", oReqPeopleListener);
 
     oReq.open("GET", people + resourceId.value);
     oReq.send();
   }
   if (resourceType.value === "planets") {
-    console.log(resourceType.value);
-
     oReq.addEventListener("load", oReqPlanetsListener);
 
     oReq.open("GET", planets + resourceId.value);
     oReq.send();
   }
   if (resourceType.value === "starships") {
-    console.log(resourceType.value);
-
     oReq.addEventListener("load", oReqStarshipsListener);
 
     oReq.open("GET", starships + resourceId.value);
